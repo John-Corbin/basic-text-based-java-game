@@ -19,19 +19,6 @@ public class my_text_game {
 		int maxEnemyHealth = 75;
 		int enemyAttackDamage = 25;
 
-		// weapon type variables
-		
-//	String[] weapon_small = {"Dagger"};
-//		int maxWeapSDamage = 25;
-		
-//		String[] weapon_mid = {"Longsword"};
-//		int maxWeapMDamage = 40;
-		
-//		String[] weapon_large = {"Greatsword"};
-//		int MaxWeapLDamage = 50;
-		
-		
-		
 		// Player variables
 		int health = 100;
 		int attackDmg = 50;
