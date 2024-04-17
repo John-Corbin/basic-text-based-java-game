@@ -1,0 +1,174 @@
+//adds code for weapon select functionallity 
+import java.util.Scanner;
+import java.util.Random;
+
+public class my_text_game {
+
+    public static void cPrintln(String message) {
+        System.out.println(message);
+    }
+
+    public static void main(String[] args) {
+
+        // System objects
+        Scanner in = new Scanner(System.in);
+        Random rand = new Random();
+
+        // Game variables
+        String[] enemies = { "Skeleton", "Zombie", "Warrior", "Assassin" };
+        int maxEnemyHealth = 75;
+        int enemyAttackDamage = 25;
+
+        // Player variables
+        int health = 100;
+        int numHealthPots = 3;
+        int healthPotionHealAmount = 30;
+        int healthPotionDropChance = 50; // Percentage
+
+        boolean running = true;
+
+        cPrintln("Welcome to the dungeon!");
+
+        // Weapon selection
+        cPrintln("Choose your weapon:");
+        cPrintln("1. Dagger");
+        cPrintln("2. Longsword");
+        cPrintln("3. Greatsword");
+
+        String weaponChoice = "";
+        int attackDmg = 0;
+        boolean validChoice = false;
+
+        while (!validChoice) {
+            cPrintln("Enter the number of your choice:");
+            weaponChoice = in.nextLine();
+
+            switch (weaponChoice) {
+                case "1":
+                    attackDmg = 25;
+                    validChoice = true;
+                    break;
+                case "2":
+                    attackDmg = 40;
+                    validChoice = true;
+                    break;
+                case "3":
+                    attackDmg = 50;
+                    validChoice = true;
+                    break;
+                default:
+                    cPrintln("Invalid choice. Please enter a number between 1 and 3.");
+                    break;
+            }
+        }
+
+        // Label
+        GAME: while (running) {
+            cPrintln("--------------------------------------------------");
+
+            cPrintln("You have entered the dungeon what will you do now?");
+            cPrintln("1. Venture Forth!");
+            cPrintln("2. Run away in terror.");
+            String Binput = in.nextLine();
+            if (Binput.equals("1")) {
+                cPrintln("You move forward into the dark tunnels .");
+            } else if (Binput.equals("2")) {
+                cPrintln("You flee from the dungeon like a coward.");
+                break;
+            } else {
+                cPrintln("\tInvalid command");
+                break;
+            }
+
+            int enemyHealth = rand.nextInt(maxEnemyHealth);
+            String enemy = enemies[rand.nextInt(enemies.length)];
+            cPrintln("A " + enemy + " has appeared!");
+            cPrintln("What do you wish to do");
+            cPrintln("1. Attack the " + enemy);
+            cPrintln("2. Run away in fear");
+            String Einput = in.nextLine();
+            if (Einput.equals("1")) {
+                cPrintln("You ready yourself for combat");
+            } else if (Einput.equals("2")) {
+                cPrintln("You flee from the " + enemy + " like a coward.");
+                break;
+            } else {
+                cPrintln("You spent too long pondering your actions the" + enemy + "attacks");
+            }
+            while (enemyHealth > 0) {
+                cPrintln("Your HP: " + health);
+                cPrintln("" + enemy + "'s HP: " + enemyHealth);
+                cPrintln("What would you like to do?");
+                cPrintln("1. Attack");
+                cPrintln("2. Drink health potion");
+                cPrintln("3. Run");
+
+                String input = in.nextLine();
+                if (input.equals("1")) {
+                    int damageDealt = rand.nextInt(attackDmg);
+                    int damageTaken = rand.nextInt(enemyAttackDamage);
+
+                    enemyHealth -= damageDealt;
+                    health -= damageTaken;
+
+                    cPrintln("> You strike the " + enemy + " with your weapon for " + damageDealt + " damage");
+                    cPrintln("> You received " + damageTaken + " in retaliation");
+
+                    if (health < 1) {
+                        cPrintln("\t You have taken too much damage, you are too weak to go on");
+                        break;
+                    }
+                } else if (input.equals("2")) {
+
+                    if (numHealthPots > 0) {
+                        health += healthPotionHealAmount;
+                        numHealthPots--;
+                        cPrintln("> You drank a health potion, healed for: " + healthPotionHealAmount + "."
+                                + "> You now have " + health + "HP."
+                                + "> You now have " + numHealthPots + " health potions left.");
+                    } else {
+                        cPrintln("> You have no health potions, defeat enemies for a chance to get one");
+                    }
+
+                } else if (input.equals("3")) {
+                    cPrintln("> You run away from the " + enemy);
+                    continue GAME;
+                } else {
+                    cPrintln("\tInvalid command");
+                }
+            }
+            if (health < 1) {
+                cPrintln("You collapse in a heap on the floor eventually dying of your wounds.");
+                break;
+            }
+            cPrintln("--------------------------------------");
+            cPrintln(" # " + enemy + " was defeated! # ");
+            cPrintln(" # You have " + health + "HP left # ");
+            // If the random number is less than 50 it drops
+            if (rand.nextInt(100) < healthPotionDropChance) {
+                numHealthPots++;
+                cPrintln(" # The " + enemy + " dropped a health potion. # ");
+                cPrintln(" # You now have " + numHealthPots + " health potion(s). # ");
+            }
+            cPrintln("--------------------------------------");
+            cPrintln("What would you like to do now?");
+            cPrintln("1. Continue exploring");
+            cPrintln("2. Exit the dungeon");
+            String input = in.nextLine();
+
+            while (!input.equals("1") && !input.equals("2")) {
+                cPrintln("invalid command");
+                input = in.nextLine();
+            }
+            if (input.equals("1")) {
+                cPrintln("You continue your adventure.");
+            } else if (input.equals("2")) {
+                cPrintln("You exit the dungeon.");
+                break;
+            }
+        }
+        cPrintln("######################");
+        cPrintln("# THANKS FOR PLAYING #");
+        cPrintln("######################");
+    }
+}
